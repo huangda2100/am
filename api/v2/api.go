@@ -336,7 +336,8 @@ func (api *API) postAlertsHandler(params alert_ops.PostAlertsParams) middleware.
 			continue
 		}
 		if v, ok := a.Labels["alertname"]; ok && (v == "server_upgrade_report_rule_alert" || v == "server_upgrade_succeed_rule_alert" || v == "server_upgrade_failed_rule_alert") {
-			a.EndsAt = time.Now().Add(time.Second * -1)
+			a.EndsAt = time.Now().Add(time.Minute * 1)
+			level.Warn(logger).Log("msg", "endsAt", "before", a.EndsAt.String(), "now", time.Now().String())
 		}
 		level.Warn(logger).Log("msg", "postalertsvalidate", "valid", a.String(), "labels", a.Labels.String())
 		validAlerts = append(validAlerts, a)
