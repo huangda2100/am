@@ -196,7 +196,7 @@ func (a *Alerts) Put(alerts ...*types.Alert) error {
 			level.Error(a.logger).Log("msg", "error on set alert", "err", err)
 			continue
 		}
-
+		level.Warn(a.logger).Log("msg", "successfullyPut", "alert", alert.String())
 		a.callback.PostStore(alert, existing)
 
 		a.mtx.Lock()

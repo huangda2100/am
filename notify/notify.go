@@ -656,7 +656,10 @@ func (r RetryStage) Exec(ctx context.Context, l log.Logger, alerts ...*types.Ale
 
 func (r RetryStage) exec(ctx context.Context, l log.Logger, alerts ...*types.Alert) (context.Context, []*types.Alert, error) {
 	var sent []*types.Alert
-
+	level.Warn(l).Log("msg", "RetryStageExec", "alerts number", len(alerts))
+	for _, a := range alerts {
+		level.Warn(l).Log("msg", "RetryStageExec", "alerts", a.String())
+	}
 	// If we shouldn't send notifications for resolved alerts, but there are only
 	// resolved alerts, report them all as successfully notified (we still want the
 	// notification log to log them for the next run of DedupStage).
